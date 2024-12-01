@@ -11,8 +11,12 @@ directors = ["Steven Spielberg", "Christopher Nolan", "Quentin Tarantino", "Mart
 
 # Function to connect to the database
 def connect_db():
-    conn = sqlite3.connect('movies_database.db')
+    conn = sqlite3.connect('db/movies_database.db')
     return conn
+#route to get to home page
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 # Route to generate and store random genre
 @app.route('/add_random_genre')

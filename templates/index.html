@@ -32,7 +32,7 @@
         border: none;
         border-radius: 4px;
         color: #fff;
-        background-color: #007bff;
+        background-color: #ff4800;
         text-decoration: none;
     }
     input[type="text"] {
@@ -71,40 +71,6 @@
     <button class="btn" onclick="searchByYearRange()">Search</button>
 </div>
 
-<script>
-    function addRandomGenre() {
-        // Functionality to add random genre
-        alert('Adding random genre');
-    }
-
-    function addRandomActor() {
-        // Functionality to add random actor
-        alert('Adding random actor');
-    }
-
-    function addRandomDirector() {
-        // Functionality to add random director
-        alert('Adding random director');
-    }
-
-    function generateMovies() {
-        // Functionality to generate movies
-        var numberOfMovies = document.getElementById('numberOfMovies').value;
-        alert('Generating ' + numberOfMovies + ' movies');
-    }
-
-    function searchByYear() {
-        // Functionality to search movies by year
-        var year = document.getElementById('searchByYear').value;
-        alert('Searching movies released in ' + year);
-    }
-
-    function searchByYearRange() {
-        // Functionality to search movies by year range
-        var startYear = document.getElementById('startYear').value;
-        var endYear = document.getElementById('endYear').value;
-        alert('Searching movies released between ' + startYear + ' and ' + endYear);
-    }
-</script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
