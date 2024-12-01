@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Movie Database</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+    .container {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+        text-align: center;
+    }
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 10px;
+        font-size: 16px;
+        text-align: center;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+        color: #fff;
+        background-color: #007bff;
+        text-decoration: none;
+    }
+    input[type="text"] {
+        padding: 8px;
+        font-size: 16px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        width: calc(100% - 80px);
+    }
+    input[type="submit"] {
+        padding: 10px 20px;
+        font-size: 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        background-color: #4CAF50;
+        color: white;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Welcome to the movie database</h1>
+    <button class="btn" onclick="addRandomGenre()">Add Random Genre</button>
+    <button class="btn" onclick="addRandomActor()">Add Random Actor</button>
+    <button class="btn" onclick="addRandomDirector()">Add Random Director</button>
+    <p>Add multiple movies</p>
+    <input type="text" id="numberOfMovies" placeholder="Enter number of movies">
+    <button class="btn" onclick="generateMovies()">Generate Movies</button>
+    <p>Search movies by year</p>
+    <input type="text" id="searchByYear" placeholder="Enter year">
+    <button class="btn" onclick="searchByYear()">Search</button>
+    <p>Search movies by year range</p>
+    <input type="text" id="startYear" placeholder="Start year">
+    <input type="text" id="endYear" placeholder="End year">
+    <button class="btn" onclick="searchByYearRange()">Search</button>
+</div>
+
+<script>
+    function addRandomGenre() {
+        // Functionality to add random genre
+        alert('Adding random genre');
+    }
+
+    function addRandomActor() {
+        // Functionality to add random actor
+        alert('Adding random actor');
+    }
+
+    function addRandomDirector() {
+        // Functionality to add random director
+        alert('Adding random director');
+    }
+
+    function generateMovies() {
+        // Functionality to generate movies
+        var numberOfMovies = document.getElementById('numberOfMovies').value;
+        alert('Generating ' + numberOfMovies + ' movies');
+    }
+
+    function searchByYear() {
+        // Functionality to search movies by year
+        var year = document.getElementById('searchByYear').value;
+        alert('Searching movies released in ' + year);
+    }
+
+    function searchByYearRange() {
+        // Functionality to search movies by year range
+        var startYear = document.getElementById('startYear').value;
+        var endYear = document.getElementById('endYear').value;
+        alert('Searching movies released between ' + startYear + ' and ' + endYear);
+    }
+</script>
+</body>
+</html>
