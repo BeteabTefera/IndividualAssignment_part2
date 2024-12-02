@@ -86,3 +86,65 @@ function generateMovies(){
         console.error('Error:', error);
     });
 }
+
+function searchByYear(){
+    const year = document.getElementById('searchByYear').value;
+
+    if (!year || isNaN(year) || year <= 0) {
+        alert("Please enter a valid year.");
+        return;
+    }
+
+    fetch(`/search_movies_by_year?year=${year}`)
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('Network response was not ok.');
+    })
+    .then(data => {
+        console.log(data);
+        //alert(`Found ${data.count} movies released in ${year}`);
+        document.getElementById('searchByYearExecuteTime').innerHTML = `Execution time: ${data.time} seconds`;
+        document.getElementById('searchByYearNumMoviesFound').innerHTML = `Found ${data.count} movies released in ${year}`;
+
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("An error occurred while searching for movies.");
+    });
+
+}
+
+function searchByYearRange (){
+    const startYear = document.getElementById('startYear').value;
+    const endYear = document.getElementById('endYear').value;
+
+    if (!startYear || isNaN(startYear) || startYear <= 0 || !endYear || isNaN(endYear) || endYear <= 0 ) {
+        alert("Please enter a valid year range.");
+        return;
+    }
+    
+    if (startYear > endYear){
+        alert("Start year cannot be bigger than end year.");
+        return;
+    }
+    fetch(`/search_movies_by_year_range?startYear=${startYear}&endYear=${endYear}`)
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('Network response was not ok.');
+    })
+    .then(data => {
+        console.log(data);
+        //fill the document id searchByYearExecuteTime and searchByYearNumMoviesFound
+        document.getElementById('searchByYearRangeExecuteTime').innerHTML = `Execution time: ${data.time} seconds`;
+        document.getElementById('searchByRangeYearNumMoviesFound').innerHTML = `Found ${data.count} movies released in between ${startYear} and ${endYear}`;
+
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("An error occurred while searching for movies.");
+    });
+}

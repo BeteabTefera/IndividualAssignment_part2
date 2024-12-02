@@ -11,6 +11,13 @@
         padding: 0;
         background-color: #f4f4f4;
     }
+    input {
+        padding: 8px;
+        font-size: 16px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        width: 100px;
+    }
     .container {
         max-width: 800px;
         margin: 50px auto;
@@ -35,13 +42,7 @@
         background-color: #ff4800;
         text-decoration: none;
     }
-    input[type="text"] {
-        padding: 8px;
-        font-size: 16px;
-        border-radius: 4px;
-        border: 1px solid #ccc;
-        width: calc(100% - 80px);
-    }
+
     input[type="submit"] {
         padding: 10px 20px;
         font-size: 16px;
@@ -50,6 +51,15 @@
         cursor: pointer;
         background-color: #4CAF50;
         color: white;
+    }
+    span {
+        display: block;
+        margin-top: 10px;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 4px;
+        background-color: #e0e0e0;
+        color: #000000;
     }
 </style>
 </head>
@@ -62,13 +72,24 @@
     <p>Add multiple movies</p>
     <input type="text" id="num_movies" placeholder="Enter number of movies">
     <button class="btn" onclick="generateMovies()">Generate Movies</button>
-    <p>Search movies by year</p>
-    <input type="text" id="searchByYear" placeholder="Enter year">
-    <button class="btn" onclick="searchByYear()">Search</button>
-    <p>Search movies by year range</p>
-    <input type="text" id="startYear" placeholder="Start year">
-    <input type="text" id="endYear" placeholder="End year">
-    <button class="btn" onclick="searchByYearRange()">Search</button>
+    <div>
+        <p>Search movies by year</p>
+        <input type="number" id="searchByYear" placeholder="Enter year">
+        <button class="btn" onclick="searchByYear()">Search</button>
+
+        <span id="searchByYearNumMoviesFound"></span>
+        <span id="searchByYearExecuteTime"></span>
+    </div>
+
+    <div>
+        <p>Search movies by year range</p>
+        <input type="number" id="startYear" placeholder="Start year">
+        <input type="number" id="endYear" placeholder="End year">
+        <button class="btn" onclick="searchByYearRange()">Search</button>
+        <span id="searchByRangeYearNumMoviesFound"></span>
+        <span id="searchByYearRangeExecuteTime"></span>
+    </div> 
+
 </div>
 
 <script src="{{ url_for('static', filename='script.js') }}"></script>

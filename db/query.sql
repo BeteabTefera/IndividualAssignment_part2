@@ -1,1 +1,3 @@
-select * from movies;
+SELECT count(*) FROM Movies;
+
+

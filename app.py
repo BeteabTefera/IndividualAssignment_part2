@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import sqlite3
 import random
-
+import time #will be used later to get the time it took to search for movies by year
 app = Flask(__name__)
 
 # Predefined lists of genres, actors, and directors
@@ -34,8 +34,6 @@ adjectives = [
     "Mysterious", "Serene", "Timeless", "Brilliant", "Vibrant",
     "Elegant", "Mesmerizing", "Dynamic", "Legendary", "Exquisite"
 ]
-
-
 nouns = [
     "Adventure", "Dream", "Escape", "Fantasy", "Journey",
     "Mystery", "Odyssey", "Quest", "Voyage", "Legend",
@@ -56,8 +54,6 @@ def generate_movie_title():
     noun = random.choice(nouns)
     random_number = random.randint(1000, 9999)
     return f"{adjective} {noun} {random_number}"
-
-
 # Function to connect to the database
 def connect_db():
     conn = sqlite3.connect('db/movies_database.db')
@@ -128,7 +124,34 @@ def add_random_director():
     conn.commit()
     conn.close()
     return "Random director added: {}".format(director)
-#
+
+#serach movies by year
+@app.route('/search_movies_by_year', methods=['GET']) #using query param
+def search_movies_by_year():
+    start_time = time.time()
+    year = request.args.get('year')
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT count(*) FROM Movies WHERE release_year = ?", (year,))
+    count = cursor.fetchone()[0]
+    conn.close()
+    end_time = time.time()
+    return {"count": count, "time": end_time - start_time} 
+
+#search movies by year range
+@app.route('/search_movies_by_year_range', methods=['GET']) #using query param
+def search_movies_by_year_range():
+    start_time = time.time()
+    start_year = request.args.get('startYear')
+    end_year = request.args.get('endYear')
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute("SELECT count(*) FROM Movies WHERE release_year BETWEEN ? AND ?", (start_year, end_year))
+    count = cursor.fetchone()[0]
+    conn.close()
+    end_time = time.time()
+    return {"count": count, "time": end_time - start_time}
+
 # Initialize the database schema
 def init_db():
     conn = connect_db()
@@ -143,6 +166,7 @@ def init_db():
                       (director_id INTEGER PRIMARY KEY AUTOINCREMENT,
                       director_name TEXT,
                       birth_date TEXT)''')
+    cursor.execute('CREATE INDEX IF NOT EXISTS idx_release_year ON Movies(release_year)')
     conn.commit()
     conn.close()
 
