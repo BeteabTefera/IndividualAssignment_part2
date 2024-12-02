@@ -63,3 +63,26 @@ function searchByYearRange() {
     var endYear = document.getElementById('endYear').value;
     alert('Searching movies released between ' + startYear + ' and ' + endYear);
 }
+
+function generateMovies(){
+    const num_movies = document.getElementById('num_movies').value;
+
+    if (!num_movies || isNaN(num_movies) || num_movies <= 0) {
+        alert("Please enter a valid number of movies.");
+        return;
+    }
+
+    fetch(`/generate_movie_title/${num_movies}`)
+    .then(response => {
+        if (response.ok) {
+            return response.text();
+        }
+        throw new Error('Network response was not ok.');
+    })
+    .then(data => {
+        alert('Successfully Generated and added ' + num_movies + ' movies');
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}

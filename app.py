@@ -5,9 +5,58 @@ import random
 app = Flask(__name__)
 
 # Predefined lists of genres, actors, and directors
-genres = ["Action", "Comedy", "Drama", "Horror", "Sci-Fi"]
-actors = ["Tom Hanks", "Leonardo DiCaprio", "Meryl Streep", "Brad Pitt", "Angelina Jolie"]
-directors = ["Steven Spielberg", "Christopher Nolan", "Quentin Tarantino", "Martin Scorsese", "James Cameron"]
+genres = [
+    "Action", "Comedy", "Drama", "Horror", "Sci-Fi", 
+    "Adventure", "Fantasy", "Thriller", "Romance", "Mystery", 
+    "Musical", "Western", "Crime", "Biography", "Historical", 
+    "War", "Animation", "Documentary", "Family", "Sports", 
+    "Noir", "Epic", "Superhero", "Experimental"]
+actors = [
+    "Tom Hanks", "Leonardo DiCaprio", "Meryl Streep", "Brad Pitt", "Angelina Jolie",
+    "Robert Downey Jr.", "Scarlett Johansson", "Denzel Washington", "Jennifer Lawrence", "Ryan Gosling", 
+    "Chris Hemsworth", "Emma Watson", "Zendaya", "Johnny Depp", "Anne Hathaway", 
+    "Samuel L. Jackson", "Natalie Portman", "Christian Bale", "Gal Gadot", "Viola Davis", 
+    "Keanu Reeves", "Margot Robbie", "Joaquin Phoenix", "Eddie Redmayne", "Florence Pugh"
+]
+directors = [
+    "Steven Spielberg", "Christopher Nolan", "Quentin Tarantino", "Martin Scorsese", "James Cameron", 
+    "Denis Villeneuve", "Greta Gerwig", "Bong Joon-ho", "Ridley Scott", "Jordan Peele", 
+    "Wes Anderson", "Alfred Hitchcock", "George Lucas", "Francis Ford Coppola", "Sofia Coppola", 
+    "Taika Waititi", "Guillermo del Toro", "Patti Jenkins", "Peter Jackson", "Ang Lee", 
+    "David Fincher", "Stanley Kubrick", "Spike Lee", "Tim Burton", "Kathryn Bigelow"
+]
+adjectives = [
+    "Amazing", "Bewitched", "Charming", "Dazzling", "Enigmatic",
+    "Fantastic", "Glorious", "Harmonious", "Incredible", "Jubilant",
+    "Magical", "Radiant", "Spectacular", "Thrilling", "Wonderous",
+    "Majestic", "Heroic", "Vivid", "Ethereal", "Graceful",
+    "Fearless", "Luminous", "Epic", "Fierce", "Bold",
+    "Mysterious", "Serene", "Timeless", "Brilliant", "Vibrant",
+    "Elegant", "Mesmerizing", "Dynamic", "Legendary", "Exquisite"
+]
+
+
+nouns = [
+    "Adventure", "Dream", "Escape", "Fantasy", "Journey",
+    "Mystery", "Odyssey", "Quest", "Voyage", "Legend",
+    "Miracle", "Enchantment", "Whisper", "Wonder", "Treasure",
+    "Saga", "Chronicle", "Tale", "Eclipse", "Illusion",
+    "Promise", "Revelation", "Destiny", "Vision", "Horizon",
+    "Shadow", "Echo", "Haven", "Paradox", "Prophecy",
+    "Labyrinth", "Myth", "Infinity", "Legacy", "Awakening"
+]
+descriptions = [
+    "An epic tale of adventure.", "A gripping drama about life and love.", 
+    "A chilling horror story.", "A heartwarming comedy.", 
+    "A futuristic sci-fi masterpiece."
+]
+
+def generate_movie_title():
+    adjective = random.choice(adjectives)
+    noun = random.choice(nouns)
+    random_number = random.randint(1000, 9999)
+    return f"{adjective} {noun} {random_number}"
+
 
 # Function to connect to the database
 def connect_db():
@@ -17,6 +66,35 @@ def connect_db():
 @app.route('/')
 def index():
     return render_template('index.html')
+#helper function to generate title
+def generate_random_title():
+    adjective = random.choice(adjectives)
+    noun = random.choice(nouns)
+    random_number = random.randint(1000, 9999)
+    return f"{adjective} {noun} {random_number}"
+
+#route to genreate movie title
+@app.route('/generate_movie_title/<int:num_movies>')
+def generate_movie_title(num_movies):
+    conn = connect_db()
+    try:
+        cursor = conn.cursor()
+        for _ in range(num_movies):
+            title = generate_random_title() 
+            release_year = random.randint(1980, 2024)
+            rating = round(random.uniform(1, 10), 1)
+            description = random.choice(descriptions)
+            cursor.execute(
+                'INSERT INTO Movies (title, release_year, rating, description) VALUES (?, ?, ?, ?)',
+                (title, release_year, rating, description)
+            )
+        conn.commit()
+        return "Movies generated successfully"
+    except Exception as e:
+        return f"An error occurred: {e}", 500
+    finally:
+        conn.close()
+        return f"{num_movies} movies generated successfully."
 
 # Route to generate and store random genre
 @app.route('/add_random_genre')
@@ -50,7 +128,7 @@ def add_random_director():
     conn.commit()
     conn.close()
     return "Random director added: {}".format(director)
-
+#
 # Initialize the database schema
 def init_db():
     conn = connect_db()
